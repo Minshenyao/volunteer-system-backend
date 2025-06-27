@@ -1,0 +1,453 @@
+definitions:
+  dto.ChangePasswordRequest:
+    properties:
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    required:
+    - newPassword
+    - oldPassword
+    type: object
+  dto.LoginUserRequest:
+    properties:
+      email:
+        example: 123@qq.com
+        type: string
+      password:
+        example: "123456"
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.RegisterUserRequest:
+    properties:
+      email:
+        example: 123@qq.com
+        type: string
+      gender:
+        example: 男
+        type: string
+      nickname:
+        example: user01
+        type: string
+      password:
+        example: "123456"
+        type: string
+      phone:
+        example: "13812345678"
+        type: string
+    required:
+    - email
+    - gender
+    - nickname
+    - password
+    - phone
+    type: object
+  dto.TaskInfo:
+    properties:
+      created_at:
+        type: string
+      end_time:
+        type: string
+      id:
+        type: integer
+      joined:
+        type: integer
+      limit:
+        type: integer
+      location:
+        type: string
+      name:
+        type: string
+      start_time:
+        type: string
+    required:
+    - created_at
+    - end_time
+    - id
+    - joined
+    - limit
+    - location
+    - name
+    - start_time
+    type: object
+  dto.UpdateUserInfoRequest:
+    properties:
+      gender:
+        type: string
+      nickname:
+        type: string
+      phone:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: Minshenyao
+    url: https://www.github.com/Minshenyao
+  description: 一个简单的志愿者管理系统，包括用户注册、登录和志愿任务的创建、删除、修改、查找等
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: 志愿者系统
+  version: "1.0"
+paths:
+  /admin/GetTaskAuditDetail:
+    post:
+      consumes:
+      - application/json
+      description: 获取任务报名详情
+      parameters:
+      - in: header
+        name: taskId
+        required: true
+        type: integer
+      - description: 任务ID
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: 获取任务报名详情
+      tags:
+      - task
+  /admin/approveVolunteer:
+    post:
+      consumes:
+      - application/json
+      description: 通过报名人审核
+      parameters:
+      - in: header
+        name: email
+        required: true
+        type: string
+      - in: header
+        name: taskId
+        required: true
+        type: integer
+      - description: 任务ID
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: 通过报名人审核
+      tags:
+      - task
+  /admin/create_task:
+    post:
+      consumes:
+      - application/json
+      description: 创建新的志愿者活动
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: 任务信息
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TaskInfo'
+      produces:
+      - application/json
+      responses: {}
+      summary: 创建新任务
+      tags:
+      - task
+  /admin/delete_task/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定活动
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: 活动ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 删除任务
+      tags:
+      - task
+  /admin/getTaskDetails:
+    get:
+      consumes:
+      - application/json
+      description: 获取任务详情
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 获取任务详情
+      tags:
+      - task
+  /admin/rejectVolunteer:
+    post:
+      consumes:
+      - application/json
+      description: 拒绝报名人审核
+      parameters:
+      - in: header
+        name: email
+        required: true
+        type: string
+      - in: header
+        name: taskId
+        required: true
+        type: integer
+      - description: 任务ID
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: 拒绝报名人审核
+      tags:
+      - task
+  /admin/update:
+    post:
+      consumes:
+      - application/json
+      description: 更新指定活动的信息
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: 任务信息
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TaskInfo'
+      produces:
+      - application/json
+      responses: {}
+      summary: 更新任务
+      tags:
+      - task
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录并生成 token
+      parameters:
+      - description: 登录信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginUserRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: 登录用户
+      tags:
+      - user
+  /api/register:
+    post:
+      consumes:
+      - application/json
+      description: 用户注册
+      parameters:
+      - description: 注册信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterUserRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: 注册新用户
+      tags:
+      - user
+  /task/getStatus:
+    get:
+      consumes:
+      - application/json
+      description: 获取当前用户任务状态
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: 任务ID
+        in: path
+        name: taskID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: 获取任务状态
+      tags:
+      - task
+  /task/join:
+    post:
+      consumes:
+      - application/json
+      description: 用户加入任务
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: 任务信息
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TaskInfo'
+      produces:
+      - application/json
+      responses: {}
+      summary: 加入任务
+      tags:
+      - task
+  /task/tasks:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有活动列表
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 获取所有任务
+      tags:
+      - task
+  /user/change_password:
+    put:
+      consumes:
+      - application/json
+      description: 修改用户密码
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: 修改密码信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: 修改密码
+      tags:
+      - user
+  /user/profile:
+    get:
+      consumes:
+      - application/json
+      description: 获取当前登录用户的个人信息
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 获取用户信息
+      tags:
+      - user
+  /user/update_user_info:
+    put:
+      consumes:
+      - application/json
+      description: 更新用户的个人信息
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: 更新用户信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserInfoRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: 更新用户信息
+      tags:
+      - user
+  /user/upload_avatar:
+    post:
+      consumes:
+      - application/json
+      description: 用户上传头像
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: 用户头像文件
+        in: formData
+        name: avatar
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses: {}
+      summary: 上传用户头像
+      tags:
+      - user
+  /user/volunteer_count:
+    get:
+      consumes:
+      - application/json
+      description: 统计所有志愿者用户个数，返回姓名、服务时长、状态、最近一次登录时间
+      parameters:
+      - example: Bearer eyJhbGciOiJIsInR5cCI6IkpXJ9...
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 统计志愿者用户个数
+      tags:
+      - user
+swagger: "2.0"

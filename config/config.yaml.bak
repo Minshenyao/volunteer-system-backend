@@ -1,0 +1,18 @@
+Database:
+  Host: 127.0.0.1
+  Port: 3306
+  Username:
+  Password:
+  DBName:
+
+VolunteerConfig:
+  jwt_key:
+  jwt_expiry:
+
+AliyunOSSConfig:
+  accessKeyId:
+  accessKeySecret:
+  objectKey:
+  bucketName:
+  endpoint:
+  area:
