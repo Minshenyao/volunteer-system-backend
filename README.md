@@ -1,6 +1,6 @@
 # 志愿者管理系统
 
-这是一个基于前后端分离架构的志愿者管理系统，作为学习项目开发，实现了志愿者活动管理的基本功能。前端部分请查看[前端仓库](https://github.com/your-username/volunteer-frontend)。
+这是一个基于前后端分离架构的志愿者管理系统，作为学习项目开发，实现了志愿者活动管理的基本功能。前端部分请查看[前端仓库](https://github.com/Minshenyao/volunteer-system-frontend)。
 
 ## 项目简介
 
